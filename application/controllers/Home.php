@@ -6,6 +6,9 @@ class Home extends CI_Controller{
   }
   public function index(){
     $this->load->view('homepage');
+    if($this->session->userdata('logged_in') == FALSE) {
+      redirect('login');
+    }
   }
 
   public function get(){
