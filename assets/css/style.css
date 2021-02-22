@@ -1,0 +1,11 @@
+.dropdown-toggle::after {
+   content: none;
+ }
+#main {
+  font-size: 0.8rem;
+}
+table {
+    border: 1px solid grey;
+    box-shadow: 2px 2px 12px black;
+    border-radius: 2%;
+}
