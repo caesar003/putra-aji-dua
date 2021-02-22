@@ -21,6 +21,10 @@ class Home extends CI_Controller{
     $data = $this->home_model->isNikAvailable();
     echo json_encode($data);
   }
+  public function nikOnAnotherUser(){
+    $data = $this->home_model->nikOnAnotherUser();
+    echo json_encode($data);
+  }
   public function add(){
     $data = $this->home_model->add();
     echo json_encode($data);
