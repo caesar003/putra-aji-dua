@@ -84,20 +84,6 @@ $(document).ready(function(){
           const id = String(m[i].value);
           const rel = String(rels[i].value);
           str += `${id}${rel}`;
-          /*switch (id.length) {
-            case 1:
-              str += `000${id}${rel}`;
-              break;
-            case 2:
-              str += `00${id}${rel}`;
-              break;
-            case 3:
-              str += `0${id}${rel}`;
-              break;
-            default:
-              str += `${id}${rel}`;
-          } */
-
         }
       }
       return str;
@@ -111,8 +97,6 @@ $(document).ready(function(){
         }
       }
       return el;
-      // const el = this.getObj(str);
-      // return el;
     }
   }
 

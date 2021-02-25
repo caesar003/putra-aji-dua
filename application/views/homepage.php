@@ -79,62 +79,7 @@
             </div>
           </div>
           <div class="container-fluid">
-            <figure id="familyTree">
-              <div class="person-icon man" style="--x: 2%;--y:5%;">
-                <i class="fas fa-user-alt"></i><br>Chris
-              </div>
-              <div class="marital-line" style="--x: 11%;--y: 7%;--w: 3%;"></div>
-              <div class="kids-v-line" style="--x: 12.20%;--y: 7%;--h: 9%;"></div>
-              <div class="kids-h-line" style="--x: 12.20%;--y: 16%;--w: 42.7%;"></div>
-
-              <div class="person-icon woman" style="--x: 14%;--y:5%;">
-                <i class="fas fa-user-alt"></i><br>Marie
-              </div>
-
-              <div class="person-icon man" style="--x: 2%;--y:20%;">
-                <i class="fas fa-user-alt"></i> <br> Bruce
-              </div>
-              <div class="marital-line" style="--x: 11%;--y: 22%;--w: 3%;"></div>
-              <div class="kids-v-line" style="--x: 12.20%;--y: 22%;--h: 9%;"></div>
-              <div class="kids-h-line" style="--x: 6%;--y: 31%;--w: 12.9%;"></div>
-
-              <div class="person-icon woman" style="--x: 14%;--y:20%;">
-                <i class="fas fa-user-alt"></i><br> Ann
-              </div>
-              <div class="head-line" style="--x: 18%;--y:17%;--h:3%;"></div>
-
-              <div class="person-icon man" style="--x: 26%;--y:20%;">
-                <i class="fas fa-user-alt"></i><br> Charlie
-              </div>
-              <div class="head-line" style="--x: 30%;--y:17%;--h:3%;"></div>
-              <div class="marital-line" style="--x: 35%;--y: 22%;--w: 3%;"></div>
-              <div class="kids-v-line" style="--x: 36%;--y:22%;--h:9%;"></div>
-              <div class="kids-h-line" style="--x: 30%;--y:31%;--w: 6.9%;"></div>
-
-              <div class="person-icon woman" style="--x: 38%; --y:20%">
-                <i class="fas fa-user-alt"></i><br> Carol
-              </div>
-              <div class="person-icon woman" style="--x: 50%;--y:20%;">
-                <i class="fas fa-user-alt"></i><br> Jessica
-              </div>
-              <div class="head-line" style="--x: 54%;--y:17%;--h:3%;"></div>
-
-
-              <div class="person-icon man" style="--x:2%;--y:35%;">
-                <i class="fas fa-user-alt"></i><br> Nick
-              </div>
-              <div class="head-line" style="--x: 6%;--y: 32%;--h:3%;"></div>
-
-              <div class="person-icon man" style="--x: 14%;--y:35%;">
-                <i class="fas fa-user-alt"></i><br> Jeff
-              </div>
-              <div class="head-line" style="--x: 18%;--y: 32%;--h:3%;"></div>
-
-              <div class="person-icon woman" style="--x:26%; --y:35%;">
-                <i class="fas fa-user-alt"></i> <br> Bonie
-              </div>
-              <div class="head-line" style="--x: 30%;--y:32%;--h:3%;"></div>
-            </figure>
+            <figure id="familyTree"></figure>
           </div>
         </div>
         <div class="col-md-7" id="main">

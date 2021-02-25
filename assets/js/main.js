@@ -55,76 +55,6 @@ $(document).ready(function(){
     getRelationIdInversed(str){
       return (this.inversed.indexOf(str) + 1);
     }
-    getNextRelation( obj, obj2 ){
-      const newObj = obj2;
-      switch ( obj.rel ) {
-        case 'Ayah/Ibu':
-          switch (obj2.rel) {
-            case 'Ayah/Ibu':
-              newObj.rel = 'Kakek/Nenek';
-              break;
-            case 'Suami/Istri':
-              newObj.rel = 'Ayah/Ibu';
-              break;
-            case 'Anak':
-              newObj.rel = 'Saudara';
-              break;
-            case 'Saudara':
-              newObj.rel = 'Paman/Bibi';
-              break;
-          }
-          break;
-        case 'Suami/Istri':
-          switch ( obj2.rel ) {
-            case 'Ayah/Ibu':
-              newObj.rel = 'Mertua';
-              break;
-            case 'Suami/Istri':
-              newObj.rel = 'Suami/Istri';
-              break;
-            case 'Anak':
-              newObj.rel = 'Anak';
-              break;
-            case 'Saudara':
-              newObj.rel = 'Ipar';
-              break;
-          }
-          break;
-        case 'Anak':
-          switch ( obj2.rel ) {
-            case 'Ayah/Ibu':
-              newObj.rel = 'Suami/Istri';
-              break;
-            case 'Suami/Istri':
-              newObj.rel = 'Menantu';
-              break;
-            case 'Anak':
-              newObj.rel = 'Cucu';
-              break;
-            case 'Saudara':
-              newObj.rel = 'Anak';
-              break;
-          }
-          break;
-        case 'Saudara':
-          switch ( obj2.rel ) {
-            case 'Ayah/Ibu':
-              newObj.rel = 'Ayah/Ibu';
-              break;
-            case 'Suami/Istri':
-              newObj.rel = 'Ipar';
-              break;
-            case 'Anak':
-              newObj.rel = 'Keponakan';
-              break;
-            case 'Saudara':
-              newObj.rel = 'Saudara';
-              break;
-          }
-          break;
-      };
-      return newObj;
-    }
     groupMembers(arr, arr2){ // old, new
       const toRemove = [];
       const toAdd = [];
@@ -244,7 +174,6 @@ $(document).ready(function(){
       for(let x = 0; x < arr.length; x ++){
         members += `<option value="${arr[x].nik}" ${Number(nik) === Number(arr[x].nik) ? 'selected' : ''}>${arr[x].name}</option>`;
       }
-
       return {relations, members};
     }
     generateFamilySelect(str, nik){
@@ -283,7 +212,6 @@ $(document).ready(function(){
         </div>`
       return el;
     }
-
     getMaritalLine(obj){
       const el = `<div class="marital-line" style="--x:${obj.x}%; --y:${obj.y}%;"></div>`;
       return el;
@@ -302,11 +230,6 @@ $(document).ready(function(){
     }
     generateFamilyTreeHtml(obj){
       let el = '';
-      // const xPositionOfFirstPerson = 2;
-      // const yPositionOfTopLevelPerson = 5;
-      // const maritalLineXLevel = 9;
-      // const maritalLineYLevel = 2;
-
       const treeParams = {
         leftMostPerson: 2,
         topLevelPerson: 5,
@@ -325,14 +248,17 @@ $(document).ready(function(){
         mLineXDiff: mX, mLineYDiff: mY, vLineXDiff: vX, vLineYDiff: vY,
         headLineXDiff: hX, headLineYDiff: hY
       } = treeParams;
+      if(obj.gender === 'man'){
+        el += this.getPersonHtmlEl({name: obj.name, gender: obj.gender, x: J, y: I});
+        el += this.getPersonHtmlEl({name: obj.spouse.name, gender: obj.spouse.gender, x: J + X, y: I});
+      } else {
+        el += this.getPersonHtmlEl({name: obj.spouse.name, gender: obj.spouse.gender, x: J, y: I});
+        el += this.getPersonHtmlEl({name: obj.name, gender: obj.gender, x: J + X, y: I});
+      }
 
-      el += this.getPersonHtmlEl({name: obj.name, gender: obj.gender, x: J, y: I});
-      el += this.getPersonHtmlEl({name: obj.spouse.name, gender: obj.spouse.gender, x: J + X, y: I});
+
       el += this.getMaritalLine({x: J + mX, y: I + mY });
       el += this.getKidsVLine({x: J + vX, y: I + vY});
-
-      // let counter = 0;
-      // let xPost = 0;
       const kidsVLineXAx = J + vX;
 
       let tracker = 0;
@@ -400,9 +326,6 @@ $(document).ready(function(){
 
             el += this.getKidsVLine({x: J + (X * tracker) + vX, y: Y + I + vY});
 
-            // el += this.getKidsVLine({x: fX, y: 31, w: lX - fX});
-            // console.log(fX);
-            // console.log(lX);
             const vLX = J + (X * tracker) + vX;
             const fI = fX < vLX ? fX : vLX;
             const lI = lX > vLX ? lX : vLX;
@@ -416,14 +339,6 @@ $(document).ready(function(){
           }
 
           el += this.getMaritalLine({x: J + (X * tracker) + mX, y: Y + I + mY});
-
-
-          // el += this.getKidsHLine({
-          //   x: J + (bottomLevelIdx * X) < J + (X * tracker) ? J + (bottomLevelIdx * X) : J + (X * tracker),
-          //   y: 31,
-          //   w: 12,
-          // })
-
           tracker += 2;
 
         } else {
@@ -560,10 +475,7 @@ $(document).ready(function(){
         familyTree.children = self.children;
       }
 
-      // console.log(familyTree);
-      // console.log(JSON.stringify(familyTree));
       const htmlEl = this.generateFamilyTreeHtml(familyTree);
-      // console.log(htmlEl);
       $('#familyTree').html(htmlEl);
 
     }
@@ -970,9 +882,7 @@ $(document).ready(function(){
       url: `${U}/home/get`,
       dataSrc: ""
     },
-    columns: [/*{
-      data: "id"
-    }, */{
+    columns: [{
       data: "nik"
     }, {
       data: {"nik":"nik", "nikk":"nikk"},
