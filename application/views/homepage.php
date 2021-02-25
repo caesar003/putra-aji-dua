@@ -2,6 +2,7 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Basis Data Penduduk Desa Putra Aji Dua</title>
     <link rel="stylesheet" href="<?php echo base_url('assets/css/lib/bootstrap.min.css')?>">
     <link rel="stylesheet" href="<?php echo base_url('assets/fontawesome-5.12.0/css/all.min.css')?>">
@@ -47,10 +48,96 @@
       </div>
     </nav>
 
-    <div class="container">
+    <div class="container-fluid p-2">
       <div class="row">
-        <div class="col-3"></div>
-        <div class="col-9" id="main">
+        <div class="col-md-5" id="side">
+          <h2 class="">
+            <span id="personName"></span>
+            <small>
+            <button type="button" class="btn-close float-end" aria-label="Close"></button></small>
+          </h2>
+          <div class="row">
+            <div class="col-6">
+              <h5>Informasi detil</h5>
+              <ul class="list-unstyled" id="personalInfor">
+                <li><strong>NIK</strong>: 180708882345773</li>
+                <li><strong>No KK</strong>: 100200</li>
+                <li><strong>Nama</strong>: Chris</li>
+                <li><strong>Lahir</strong>: 1 Jan 1954 (67 tahun)</li>
+                <li><strong>Jenis</strong> Kelamin: Laki-laki</li>
+                <li><strong>Status tinggal</strong>: Menetap</li>
+              </ul>
+            </div>
+            <div class="col-6">
+              <h5>Keluarga</h5>
+              <ul class="list-unstyled">
+                <li><strong>Ayah</strong>: -</li>
+                <li><strong>Ibu</strong>: -</li>
+                <li><strong>Istri</strong>: Ann</li>
+                <li><strong>Anak</strong>: Charlie, Jessica </li>
+              </ul>
+            </div>
+          </div>
+          <div class="container-fluid">
+            <figure id="familyTree">
+              <div class="person-icon man" style="--x: 2%;--y:5%;">
+                <i class="fas fa-user-alt"></i><br>Chris
+              </div>
+              <div class="marital-line" style="--x: 11%;--y: 7%;--w: 3%;"></div>
+              <div class="kids-v-line" style="--x: 12.20%;--y: 7%;--h: 9%;"></div>
+              <div class="kids-h-line" style="--x: 12.20%;--y: 16%;--w: 42.7%;"></div>
+
+              <div class="person-icon woman" style="--x: 14%;--y:5%;">
+                <i class="fas fa-user-alt"></i><br>Marie
+              </div>
+
+              <div class="person-icon man" style="--x: 2%;--y:20%;">
+                <i class="fas fa-user-alt"></i> <br> Bruce
+              </div>
+              <div class="marital-line" style="--x: 11%;--y: 22%;--w: 3%;"></div>
+              <div class="kids-v-line" style="--x: 12.20%;--y: 22%;--h: 9%;"></div>
+              <div class="kids-h-line" style="--x: 6%;--y: 31%;--w: 12.9%;"></div>
+
+              <div class="person-icon woman" style="--x: 14%;--y:20%;">
+                <i class="fas fa-user-alt"></i><br> Ann
+              </div>
+              <div class="head-line" style="--x: 18%;--y:17%;--h:3%;"></div>
+
+              <div class="person-icon man" style="--x: 26%;--y:20%;">
+                <i class="fas fa-user-alt"></i><br> Charlie
+              </div>
+              <div class="head-line" style="--x: 30%;--y:17%;--h:3%;"></div>
+              <div class="marital-line" style="--x: 35%;--y: 22%;--w: 3%;"></div>
+              <div class="kids-v-line" style="--x: 36%;--y:22%;--h:9%;"></div>
+              <div class="kids-h-line" style="--x: 30%;--y:31%;--w: 6.9%;"></div>
+
+              <div class="person-icon woman" style="--x: 38%; --y:20%">
+                <i class="fas fa-user-alt"></i><br> Carol
+              </div>
+              <div class="person-icon woman" style="--x: 50%;--y:20%;">
+                <i class="fas fa-user-alt"></i><br> Jessica
+              </div>
+              <div class="head-line" style="--x: 54%;--y:17%;--h:3%;"></div>
+
+
+              <div class="person-icon man" style="--x:2%;--y:35%;">
+                <i class="fas fa-user-alt"></i><br> Nick
+              </div>
+              <div class="head-line" style="--x: 6%;--y: 32%;--h:3%;"></div>
+
+              <div class="person-icon man" style="--x: 14%;--y:35%;">
+                <i class="fas fa-user-alt"></i><br> Jeff
+              </div>
+              <div class="head-line" style="--x: 18%;--y: 32%;--h:3%;"></div>
+
+              <div class="person-icon woman" style="--x:26%; --y:35%;">
+                <i class="fas fa-user-alt"></i> <br> Bonie
+              </div>
+              <div class="head-line" style="--x: 30%;--y:32%;--h:3%;"></div>
+            </figure>
+          </div>
+        </div>
+        <div class="col-md-7" id="main">
           <div class="container">
             <table id="citizenList" class="table table-striped table-bordered">
               <thead>
@@ -60,7 +147,7 @@
                 <th>Nama</th>
                 <th>KK</th>
                 <th>Lahir</th>
-                <th>L/P</th>
+                <th>P/L </th>
                 <th>Status</th>
                 <th>Keluarga</th>
                 <th>Pilihan</th>
