@@ -97,12 +97,99 @@ $(document).ready(function(){
       }
       return obj;
     }
+    getAge(b,c){
+      const birthDate = new Date(b);
+      const currentDate = c !== undefined ? new Date(c) : new Date();
+
+      const yOb = birthDate.getFullYear();
+      const mOb = birthDate.getMonth();
+      const dOb = birthDate.getDate();
+
+      const thisYear = currentDate.getFullYear();
+      const thisMonth = currentDate.getMonth();
+      const today = currentDate.getDate();
+
+      let yearDiff = thisYear - yOb;
+        /*
+          if month of birth is less than this month => month has not come yet;
+          month of birth equals to this month AND date of birth is less than today;
+        */
+      if(mOb>thisMonth||((mOb===thisMonth)&&(dOb>today))) yearDiff--;
+
+      return yearDiff;
+    }
     getString(obj){
       let str = '';
       for(let i = 0; i < obj.length; i++){
         str += `${obj[i].person.nik}${this.relations.findIndex(item => item === obj[i].rel)}`;
       }
       return str;
+    }
+    getDetailedInfo(obj){
+      let el = `<li><strong>NIK</strong>: ${obj.nik}</li>
+      <li><strong>No KK</strong>: ${obj.nikk}</li>
+      <li><strong>Nama</strong>: ${obj.name}</li>
+      <li><strong>Lahir</strong>: ${$.format.date(obj.dob, "dd/MM/yyyy")} (${this.getAge(obj.dob)} tahun)</li>
+      <li><strong>Jenis Kelamin</strong>: ${obj.gender === 'm'? 'P' : 'L'}</li>
+      <li><strong>Status tinggal</strong>: ${Number(obj.status) ? 'Menetap' : 'Merantau'}</li>`;
+      return el;
+    }
+
+    getFamilyList(obj){
+      let el = "";
+      // console.log(obj);
+      const familyMembers = this.getObj(obj.family);
+      // console.log(familyMembers);
+      const spouse = familyMembers.find(item => item.rel === 'Suami/Istri');
+      const kids = familyMembers.filter(items => items.rel === 'Anak');
+      const parents = familyMembers.filter(items => items.rel === 'Ayah/Ibu');
+      const siblings = familyMembers.filter(items => items.rel === 'Saudara');
+
+      // el += `<li><strong>Ayah</strong>: -</li>
+      // <li><strong>Ibu</strong>: -</li>
+      // <li><strong>Istri</strong>: Ann</li>
+      // <li><strong>Anak</strong>: Charlie, Jessica </li>`;
+      const htmlEls = {
+        father: '<li><strong>Ayah</strong>: ',
+        mother: '<li><strong>Ibu</strong>: ',
+        spouse: `<li><strong>${obj.gender === 'm' ? 'Istri' : 'Suami'}</strong>: `,
+        kids: '<li><strong>Anak</strong>: ',
+        siblings: '<li><strong>Saudara</strong>: '
+      };
+
+      if(parents.length){
+        const father = parents.find(item => item.person.gender === 'm');
+        const mother = parent.find(item => item.person.gender === 'f');
+        if(father) htmlEls.father += `${father.person.name}`;
+        if(mother) htmlEls.mother += `${mother.person.name}`;
+      }
+      if(spouse){
+        htmlEls.spouse += `${spouse.person.name}`;
+      }
+
+      if(kids.length){
+        for(let i = 0; i< kids.length ; i ++){
+          htmlEls.kids += `${kids[i].person.name}${i !== kids.length - 1 ? ', ': ''}`
+        }
+      }
+      if(siblings.length){
+        for(let i = 0; i< siblings.length ; i ++){
+          htmlEls.siblings += `${siblings[i].person.name}${i !== siblings.length - 1 ? ', ': ''}`
+        }
+      }
+
+      htmlEls.father += '</li>';
+      htmlEls.mother += '</li>';
+      htmlEls.spouse += '</li>';
+      htmlEls.kids += '</li>';
+      htmlEls.siblings += '</li>';
+
+      // let el = '';
+      for( let item in htmlEls ) {
+        el += htmlEls[item];
+      }
+      // console.log(el);return
+      return el;
     }
     getInversed(str){
       const obj = [];
@@ -381,6 +468,11 @@ $(document).ready(function(){
     }
     constructFamilyTree(str){
       const person = State.data.find(item => String(item.nik) === String(str));
+      const detail = this.getDetailedInfo(person);
+      const list = this.getFamilyList(person);
+      // console.log(list);
+      // this.getFamilyList(person);
+      // console.log(detail);
       const familyTree = {
         name: null,
         nik: null,
@@ -478,6 +570,8 @@ $(document).ready(function(){
       const htmlEl = this.generateFamilyTreeHtml(familyTree);
       $('#familyTree').html(htmlEl);
 
+      $('#personalInfo').html(detail);
+      $('#familyList').html(list);
     }
   }
   const family = new Family();
@@ -876,6 +970,11 @@ $(document).ready(function(){
     }
   }
   const citizen = new Citizen();
+  // console.log(family.getAge("2017-02-28"));
+  // family.getAge("2010-02-27");
+
+  // date of birth 01 may 2017;
+  // today : 01 may 2020;
 
   $('#citizenList').DataTable({
     ajax: {
@@ -893,8 +992,15 @@ $(document).ready(function(){
       data: "nikk",
       render: (data, meta, row) => `${family.getChief(Number(data))}`
     }, {
+      data: "rw"
+    }, {
+      data: "rt"
+    }, {
       data: "dob",
       render: (data, meta, row) => $.format.date(data, "dd/MM/yyyy")
+    }, {
+      data: "dob",
+      render: (data, meta, row) => family.getAge(data)
     }, {
       data: "gender",
       render: (data, meta, row) => data === 'm' ? 'L' : 'P'

@@ -41,16 +41,16 @@
             </li>
 
           </ul>
-          <form class="d-flex">
+          <!-- <form class="d-flex">
             <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-          </form>
+          </form> -->
         </div>
       </div>
     </nav>
 
     <div class="container-fluid p-2">
       <div class="row">
-        <div class="col-md-5" id="side">
+        <div class="col-md-4" id="side">
           <h2 class="">
             <span id="personName"></span>
             <small>
@@ -59,22 +59,17 @@
           <div class="row">
             <div class="col-6">
               <h5>Informasi detil</h5>
-              <ul class="list-unstyled" id="personalInfor">
-                <li><strong>NIK</strong>: 180708882345773</li>
-                <li><strong>No KK</strong>: 100200</li>
-                <li><strong>Nama</strong>: Chris</li>
-                <li><strong>Lahir</strong>: 1 Jan 1954 (67 tahun)</li>
-                <li><strong>Jenis</strong> Kelamin: Laki-laki</li>
-                <li><strong>Status tinggal</strong>: Menetap</li>
+              <ul class="list-unstyled" id="personalInfo">
+
               </ul>
             </div>
             <div class="col-6">
               <h5>Keluarga</h5>
-              <ul class="list-unstyled">
-                <li><strong>Ayah</strong>: -</li>
+              <ul class="list-unstyled" id="familyList">
+                <!-- <li><strong>Ayah</strong>: -</li>
                 <li><strong>Ibu</strong>: -</li>
                 <li><strong>Istri</strong>: Ann</li>
-                <li><strong>Anak</strong>: Charlie, Jessica </li>
+                <li><strong>Anak</strong>: Charlie, Jessica </li> -->
               </ul>
             </div>
           </div>
@@ -82,7 +77,7 @@
             <figure id="familyTree"></figure>
           </div>
         </div>
-        <div class="col-md-7" id="main">
+        <div class="col-md-8" id="main">
           <div class="container">
             <table id="citizenList" class="table table-striped table-bordered">
               <thead>
@@ -91,7 +86,10 @@
                 <th>No KK</th>
                 <th>Nama</th>
                 <th>KK</th>
+                <th>RW</th>
+                <th>RT</th>
                 <th>Lahir</th>
+                <th>Usia</th>
                 <th>P/L </th>
                 <th>Status</th>
                 <th>Keluarga</th>
