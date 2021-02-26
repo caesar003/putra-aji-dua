@@ -4,6 +4,16 @@
 #main, #side {
   font-size: 0.8rem;
 }
+#main{
+  max-height: 100vh;
+  overflow-y: scroll;
+}
+/* #personInfo {
+  display: none;
+} */
+.isHidden{
+  display: none;
+}
 table {
     border: 1px solid grey;
     box-shadow: 2px 2px 12px black;
@@ -34,7 +44,14 @@ button.btn-close.float-end {
   font-size: 0.6rem;
   border-radius: 8px;
   z-index: 2;
+  cursor: pointer;
 }
+
+.person-icon:hover {
+    opacity: 0.7;
+    box-shadow: 2px 2px 9px grey;
+}
+
 
 .marital-line, .kids-h-line, .kids-v-line, .head-line {
   background-color: black;
@@ -127,3 +144,30 @@ svg {
   border-width: 1px;
 } */
 /* family tree */
+
+.pie-chart {
+  display: block;
+  /* position: absolute; */
+  border: 0.3px solid grey;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  /* background-image: conic-gradient(pink 70deg, lightblue 0 235deg, orange 0); */
+  /* background-image: conic-gradient(pink 70deg, lightblue 0 235deg, orange 0); */
+  /* background-image: conic-gradient(aliceblue 360deg); */
+  /* background-image: conic-gradient(from 45deg, blue, red); */
+  /* background-image: conic-gradient(
+      hsl(360, 100%, 50%),
+      hsl(315, 100%, 50%),
+      hsl(270, 100%, 50%),
+      hsl(225, 100%, 50%),
+      hsl(180, 100%, 50%),
+      hsl(135, 100%, 50%),
+      hsl(90, 100%, 50%),
+      hsl(45, 100%, 50%),
+      hsl(0, 100%, 50%)
+  ); */
+  /* background-image: conic-gradient(red 0deg, orange 90deg, yellow 180deg, green 270deg, blue 360deg); */
+  /* background-image: conic-gradient(red 50deg, blue 0 200deg, green 0); */
+  background-image: conic-gradient(var(--g));
+}

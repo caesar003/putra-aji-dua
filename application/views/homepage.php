@@ -51,30 +51,58 @@
     <div class="container-fluid p-2">
       <div class="row">
         <div class="col-md-4" id="side">
-          <h2 class="">
-            <span id="personName"></span>
-            <small>
-            <button type="button" class="btn-close float-end" aria-label="Close"></button></small>
-          </h2>
-          <div class="row">
-            <div class="col-6">
-              <h5>Informasi detil</h5>
-              <ul class="list-unstyled" id="personalInfo">
+          <div id="stats">
+            <div class="container">
+              <div class="row">
+                <div class="col-6">
+                  <ul class="list-unstyled" id="genderList">
+                    <!-- <li>Laki-laki: 120 (64.5%)</li>
+                    <li>Perempuan: 39 (17.6%)</li> -->
+                  </ul>
+                </div>
+                <div class="col-6" id="genderChart">
 
-              </ul>
-            </div>
-            <div class="col-6">
-              <h5>Keluarga</h5>
-              <ul class="list-unstyled" id="familyList">
-                <!-- <li><strong>Ayah</strong>: -</li>
-                <li><strong>Ibu</strong>: -</li>
-                <li><strong>Istri</strong>: Ann</li>
-                <li><strong>Anak</strong>: Charlie, Jessica </li> -->
-              </ul>
+                </div>
+              </div>
+
+              <h4>Kelompok usia</h4>
+              <div class="row">
+                <div class="col-6">
+                  <ul class="list-unstyled" id="ageGroup">
+                    <!-- <li>0-5 Tahun: 250(3%)</li>
+                    <li>6-10 Tahun: 182(48.3%)</li>
+                    <li>11-15 Tahun: 54(8.22%)</li>
+                    <li>&gt; 16 Tahun: 72(5.3%)</li> -->
+                  </ul>
+                </div>
+                <div class="col-6" id="ageChart">
+
+                </div>
+              </div>
             </div>
           </div>
-          <div class="container-fluid">
-            <figure id="familyTree"></figure>
+          <div id="personInfo" class="isHidden">
+            <h2 class="">
+              <span id="personName"></span>
+              <small>
+              <button type="button" class="btn-close float-end" aria-label="Close"></button></small>
+            </h2>
+            <div class="row">
+              <div class="col-6">
+                <h5>Informasi detil</h5>
+                <ul class="list-unstyled" id="personalInfo">
+
+                </ul>
+              </div>
+              <div class="col-6">
+                <h5>Keluarga</h5>
+                <ul class="list-unstyled" id="familyList">
+                </ul>
+              </div>
+            </div>
+            <div class="container-fluid">
+              <figure id="familyTree"></figure>
+            </div>
           </div>
         </div>
         <div class="col-md-8" id="main">

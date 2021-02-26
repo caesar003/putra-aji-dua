@@ -134,7 +134,6 @@ $(document).ready(function(){
       <li><strong>Status tinggal</strong>: ${Number(obj.status) ? 'Menetap' : 'Merantau'}</li>`;
       return el;
     }
-
     getFamilyList(obj){
       let el = "";
       // console.log(obj);
@@ -293,7 +292,7 @@ $(document).ready(function(){
       return el;
     }
     getPersonHtmlEl(obj){
-      const el = `<div class="person-icon ${obj.gender}" style="--x:${obj.x}%;--y:${obj.y}%;">
+      const el = `<div data-nik="${obj.nik}" class="person-icon ${obj.gender}" style="--x:${obj.x}%;--y:${obj.y}%;">
           <i class="fas fa-user-alt"></i> <br>
           ${obj.name}
         </div>`
@@ -336,11 +335,11 @@ $(document).ready(function(){
         headLineXDiff: hX, headLineYDiff: hY
       } = treeParams;
       if(obj.gender === 'man'){
-        el += this.getPersonHtmlEl({name: obj.name, gender: obj.gender, x: J, y: I});
-        el += this.getPersonHtmlEl({name: obj.spouse.name, gender: obj.spouse.gender, x: J + X, y: I});
+        el += this.getPersonHtmlEl({name: obj.name, nik: obj.nik, gender: obj.gender, x: J, y: I});
+        el += this.getPersonHtmlEl({name: obj.spouse.name, nik: obj.spouse.nik, gender: obj.spouse.gender, x: J + X, y: I});
       } else {
-        el += this.getPersonHtmlEl({name: obj.spouse.name, gender: obj.spouse.gender, x: J, y: I});
-        el += this.getPersonHtmlEl({name: obj.name, gender: obj.gender, x: J + X, y: I});
+        el += this.getPersonHtmlEl({name: obj.spouse.name, nik: obj.spouse.nik, gender: obj.spouse.gender, x: J, y: I});
+        el += this.getPersonHtmlEl({name: obj.name, nik: obj.nik, gender: obj.gender, x: J + X, y: I});
       }
 
 
@@ -363,6 +362,7 @@ $(document).ready(function(){
             el += this.getPersonHtmlEl({
               name: obj.children[i].name,
               gender: obj.children[i].gender,
+              nik: obj.children[i].nik,
               x: J + (tracker * X),
               y: I + Y,
             });
@@ -370,6 +370,7 @@ $(document).ready(function(){
             el += this.getPersonHtmlEl({
               name: obj.children[i].spouse.name,
               gender: obj.children[i].spouse.gender,
+              nik: obj.children[i].spouse.nik,
               x: J + ((tracker + 1) * X),
               y: I + Y,
             });
@@ -379,12 +380,14 @@ $(document).ready(function(){
             el += this.getPersonHtmlEl({
               name: obj.children[i].spouse.name,
               gender: obj.children[i].spouse.gender,
+              nik: obj.children[i].spouse.nik,
               x: J + (tracker * X),
               y: I + Y,
             });
             el += this.getPersonHtmlEl({
               name: obj.children[i].name,
               gender: obj.children[i].gender,
+              nik: obj.children[i].nik,
               x: J + ((tracker + 1) * X),
               y: I + Y,
             });
@@ -401,6 +404,7 @@ $(document).ready(function(){
               el += this.getPersonHtmlEl({
                 name: obj.children[i].children[j].name,
                 gender: obj.children[i].children[j].gender,
+                nik: obj.children[i].children[j].nik,
                 x: J + (bottomLevelIdx * X),
                 y: I + (Y * 2)
               });
@@ -432,6 +436,7 @@ $(document).ready(function(){
           el += this.getPersonHtmlEl({
             name: obj.children[i].name,
             gender: obj.children[i].gender,
+            nik: obj.children[i].nik,
             x: J + (tracker * X),
             y: I + Y,
           });
@@ -470,9 +475,6 @@ $(document).ready(function(){
       const person = State.data.find(item => String(item.nik) === String(str));
       const detail = this.getDetailedInfo(person);
       const list = this.getFamilyList(person);
-      // console.log(list);
-      // this.getFamilyList(person);
-      // console.log(detail);
       const familyTree = {
         name: null,
         nik: null,
@@ -568,10 +570,19 @@ $(document).ready(function(){
       }
 
       const htmlEl = this.generateFamilyTreeHtml(familyTree);
+      $('#personInfo').removeClass('isHidden');
+      $('#stats').addClass('isHidden');
       $('#familyTree').html(htmlEl);
 
       $('#personalInfo').html(detail);
       $('#familyList').html(list);
+    }
+    formatDate(d){
+      const months = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+      const date = d.slice(0,2);
+      const month = d.slice(3,5);
+      const year = d.slice(6,11);
+      return (`${date}-${months[month-1]}-${year}`);
     }
   }
   const family = new Family();
@@ -968,14 +979,53 @@ $(document).ready(function(){
       });
 
     }
+    makeGenderChart(){
+      // console.log(State.data);
+      const data = State.data;
+      const n = data.length;
+      const man = data.filter(items => items.gender === 'm').length;
+      const woman = data.filter(items => items.gender === 'f').length;
+
+      const list = {
+        man: `${man} (${((man/n) * 100).toFixed(2)}%)`,
+        // mDeg: `${(360 * ((man/n) * 100)) / 100}`,
+        mDeg: `${(man/n) * 360}`,
+        woman: `${woman} (${((woman/n) * 100).toFixed(2)}%)`,
+        wDeg: `${(woman/n) * 360}`
+      };
+
+      /*
+        360 * ( sample / population ) * 100
+      */
+      /*
+        sample / population * 360;
+      */
+
+      const lEl = `<li><i style="color:pink;" class="fas fa-user-alt"></i> <strong>P</strong>: ${list.woman} </li>
+      <li><i style="color:navy;" class="fas fa-user-alt"></i> <strong>L</strong>: ${list.man}</li>`;
+      const genderChart =  `<div class="pie-chart" style="--g:navy ${list.mDeg}deg, pink 0;"></div>`;
+      $('#genderList').html(lEl);
+      $('#genderChart').html(genderChart);
+    }
+    makeAgeGroupChart(){
+      const data = State.data;
+
+      const n = data.length;
+      const twenties = data.filter(items => family.getAge(items.dob) <= 20).length;
+      const twentiesdeg = (twenties/n) * 360;
+      const underFifty = data.filter(items => family.getAge(items.dob) > 20 && family.getAge(items.dob) < 50).length;
+      const fiftiesdeg = (underFifty/n) * 360;
+      const aboveFifty = data.filter(items => family.getAge(items.dob) > 50).length;
+      const abovefifDeg = (aboveFifty/n) * 360;
+      let el = `<li><i style="color:#dd4b39;" class="fas fa-user-alt"></i> <strong>&lt;20 tahun</strong>: ${twenties} (${((twenties/n) * 100).toFixed(2)}%)</li>
+      <li><i style="color:#9cb443;" class="fas fa-user-alt"></i> <strong>21-50 tahun</strong>: ${underFifty} (${((underFifty/n) * 100).toFixed(2)}%)</li>
+      <li><i style="color:#007bb6;" class="fas fa-user-alt"></i> <strong>&gt;50 tahun</strong>: ${aboveFifty} (${((aboveFifty/n) * 100).toFixed(2)}%)</li>`;
+      let pieChart = `<div class="pie-chart" style="--g:#dd4b39 ${twentiesdeg}deg, #9cb443 0 ${fiftiesdeg+twentiesdeg}deg, #007bb6 0;"></div>`;
+      $('#ageGroup').html(el);
+      $('#ageChart').html(pieChart);
+    }
   }
   const citizen = new Citizen();
-  // console.log(family.getAge("2017-02-28"));
-  // family.getAge("2010-02-27");
-
-  // date of birth 01 may 2017;
-  // today : 01 may 2020;
-
   $('#citizenList').DataTable({
     ajax: {
       url: `${U}/home/get`,
@@ -997,7 +1047,7 @@ $(document).ready(function(){
       data: "rt"
     }, {
       data: "dob",
-      render: (data, meta, row) => $.format.date(data, "dd/MM/yyyy")
+      render: (data, meta, row) => family.formatDate($.format.date(data, "dd-MM-yyyy"))
     }, {
       data: "dob",
       render: (data, meta, row) => family.getAge(data)
@@ -1059,57 +1109,18 @@ $(document).ready(function(){
     family.constructFamilyTree(nik);
   });
 
-  // const getAge = (d) => {
-  //   const months = {
-  //   }
-  //   // return d.getFullYear();
-  //   // return d;
-  //   // console.log(d);
-  //   let age = 0;
-  //   const date = new Date();
-  //
-  //   // const year0 = d.getFullYear();
-  //   // const year1 = today.getFullYear();
-  //   // const month0 = d.getMonth();
-  //   // const month1 = today.getMonth();
-  //   // const day0 = d.getDate();
-  //   // const day1 = today.getDate();
-  //   // // console.log(year0, year1);
-  //   // // console.log("year0", year0, "year1", year1, "month0", month0, "month1", month1, "day0", day0, "day1", day1);
-  //   // // console.log(year1 - year0);
-  //   // // console.log(month1 - month0);
-  //   // // age = year1 - year0;
-  //   // if( month1 < month0 ){
-  //   //   age = month
-  //   // }
-  //   // console.log(age);
-  //   const dateOfBirth = d.getDate();
-  //   const monthOfBirth = d.getMonth();
-  //   const yearOfBirth = d.getFullYear();
-  //
-  //   const today = date.getDate();
-  //   const thisMonth = date.getMonth();
-  //   const thisYear = date.getFullYear();
-  //
-  //   // if( monthOfBirth > thisMonth  ) {
-  //   //   // console.log( (thisYear - yearOfBirth) - 1)
-  //   //   age = (thisYear - yearOfBirth) - 1;
-  //   // } else {
-  //   //   // console.log()
-  //   //   age = thisYear - yearOfBirth;
-  //   // }
-  //   // console.log(age);
-  //   const yearDiff = monthOfBirth < thisMonth ? thisYear - yearOfBirth : thisYear - yearOfBirth - 1;
-  //   const monthDiff = thisMonth > monthOfBirth ? thisMonth - monthOfBirth : ( thisMonth < monthOfBirth ? (thisMonth + 12) - monthOfBirth : 0);
-  //   // console.log(yearDiff);
-  //   // const monthDiff = monthOfBirth < thisMonth ? thisMonth - monthOfBirth : ;
-  //   console.log(yearDiff, "year", monthDiff, "month");
-  // }
+  $('#personInfo').on('click', '.btn-close', function(){
+    // console.log('clicked');
+    $('#personInfo').addClass('isHidden');
+    $('#stats').removeClass('isHidden');
+  });
 
-  // console.log(getAge(new Date("2001-10-03")))
-  // getAge(new Date("2001-11-23")) // 9
-  // getAge(new Date("2001-01-23")) // 11
-  // getAge(new Date("2001-02-23"))
-  // family.constructFamilyTree("180702010304002");
 
+  $('#familyTree').on('click', '.person-icon', function(){
+    const nik = $(this).data('nik');
+    // console.log(nik);
+    family.constructFamilyTree(nik);
+  });
+  citizen.makeGenderChart();
+  citizen.makeAgeGroupChart();
 });
