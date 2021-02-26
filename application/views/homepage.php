@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="<?php echo base_url('assets/css/lib/bootstrap.min.css')?>">
     <link rel="stylesheet" href="<?php echo base_url('assets/fontawesome-5.12.0/css/all.min.css')?>">
     <link rel="stylesheet" href="<?php echo base_url('assets/css/lib/datatables.min.css')?>">
-    <link rel="stylesheet" href="<?php echo base_url('assets/css/style.css') ?>">
+    <link rel="stylesheet" href="<?php echo base_url('assets/css/style.min.css') ?>">
   </head>
   <body>
     <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
@@ -41,9 +41,6 @@
             </li>
 
           </ul>
-          <!-- <form class="d-flex">
-            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-          </form> -->
         </div>
       </div>
     </nav>
@@ -56,12 +53,9 @@
               <div class="row">
                 <div class="col-6">
                   <ul class="list-unstyled" id="genderList">
-                    <!-- <li>Laki-laki: 120 (64.5%)</li>
-                    <li>Perempuan: 39 (17.6%)</li> -->
                   </ul>
                 </div>
                 <div class="col-6" id="genderChart">
-
                 </div>
               </div>
 
@@ -69,10 +63,6 @@
               <div class="row">
                 <div class="col-6">
                   <ul class="list-unstyled" id="ageGroup">
-                    <!-- <li>0-5 Tahun: 250(3%)</li>
-                    <li>6-10 Tahun: 182(48.3%)</li>
-                    <li>11-15 Tahun: 54(8.22%)</li>
-                    <li>&gt; 16 Tahun: 72(5.3%)</li> -->
                   </ul>
                 </div>
                 <div class="col-6" id="ageChart">
@@ -389,6 +379,6 @@
       getData();
 
     </script>
-    <script type="text/javascript" src="<?php echo base_url('assets/js/main.js')?>"> </script>
+    <script type="text/javascript" src="<?php echo base_url('assets/js/main.min.js')?>"> </script>
   </body>
 </html>

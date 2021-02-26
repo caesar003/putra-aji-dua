@@ -136,18 +136,12 @@ $(document).ready(function(){
     }
     getFamilyList(obj){
       let el = "";
-      // console.log(obj);
       const familyMembers = this.getObj(obj.family);
-      // console.log(familyMembers);
       const spouse = familyMembers.find(item => item.rel === 'Suami/Istri');
       const kids = familyMembers.filter(items => items.rel === 'Anak');
       const parents = familyMembers.filter(items => items.rel === 'Ayah/Ibu');
       const siblings = familyMembers.filter(items => items.rel === 'Saudara');
 
-      // el += `<li><strong>Ayah</strong>: -</li>
-      // <li><strong>Ibu</strong>: -</li>
-      // <li><strong>Istri</strong>: Ann</li>
-      // <li><strong>Anak</strong>: Charlie, Jessica </li>`;
       const htmlEls = {
         father: '<li><strong>Ayah</strong>: ',
         mother: '<li><strong>Ibu</strong>: ',
@@ -158,23 +152,30 @@ $(document).ready(function(){
 
       if(parents.length){
         const father = parents.find(item => item.person.gender === 'm');
-        const mother = parent.find(item => item.person.gender === 'f');
-        if(father) htmlEls.father += `${father.person.name}`;
-        if(mother) htmlEls.mother += `${mother.person.name}`;
+        const mother = parents.find(item => item.person.gender === 'f');
+        htmlEls.father += `${father.person.name}`;
+        htmlEls.mother += `${mother.person.name}`;
+      } else {
+        htmlEls.mother += ' - ';
+        htmlEls.father += ' - ';
       }
       if(spouse){
         htmlEls.spouse += `${spouse.person.name}`;
+      } else {
+        htmlEls.spouse += ' - ';
       }
 
       if(kids.length){
-        for(let i = 0; i< kids.length ; i ++){
-          htmlEls.kids += `${kids[i].person.name}${i !== kids.length - 1 ? ', ': ''}`
-        }
+        for(let i = 0; i< kids.length ; i ++)
+          htmlEls.kids += `${kids[i].person.name}${i !== kids.length - 1 ? ', ': ''}`;
+      } else {
+        htmlEls.kids += ' - ';
       }
       if(siblings.length){
-        for(let i = 0; i< siblings.length ; i ++){
-          htmlEls.siblings += `${siblings[i].person.name}${i !== siblings.length - 1 ? ', ': ''}`
-        }
+        for(let i = 0; i< siblings.length ; i ++)
+          htmlEls.siblings += `${siblings[i].person.name}${i !== siblings.length - 1 ? ', ': ''}`;
+      } else {
+        htmlEls.siblings += ' - ';
       }
 
       htmlEls.father += '</li>';
@@ -292,7 +293,7 @@ $(document).ready(function(){
       return el;
     }
     getPersonHtmlEl(obj){
-      const el = `<div data-nik="${obj.nik}" class="person-icon ${obj.gender}" style="--x:${obj.x}%;--y:${obj.y}%;">
+      const el = `<div data-nik="${obj.nik}" class="person-icon ${obj.gender} ${String(obj.h) === String(obj.nik) ? 'highlighted' : ''}" style="--x:${obj.x}%;--y:${obj.y}%;">
           <i class="fas fa-user-alt"></i> <br>
           ${obj.name}
         </div>`
@@ -335,16 +336,16 @@ $(document).ready(function(){
         headLineXDiff: hX, headLineYDiff: hY
       } = treeParams;
       if(obj.gender === 'man'){
-        el += this.getPersonHtmlEl({name: obj.name, nik: obj.nik, gender: obj.gender, x: J, y: I});
-        el += this.getPersonHtmlEl({name: obj.spouse.name, nik: obj.spouse.nik, gender: obj.spouse.gender, x: J + X, y: I});
+        el += this.getPersonHtmlEl({ h: obj.highlighted,name: obj.name, nik: obj.nik, gender: obj.gender, x: J, y: I});
+        el += this.getPersonHtmlEl({ h: obj.highlighted,name: obj.spouse.name, nik: obj.spouse.nik, gender: obj.spouse.gender, x: J + X, y: I});
       } else {
-        el += this.getPersonHtmlEl({name: obj.spouse.name, nik: obj.spouse.nik, gender: obj.spouse.gender, x: J, y: I});
-        el += this.getPersonHtmlEl({name: obj.name, nik: obj.nik, gender: obj.gender, x: J + X, y: I});
+        el += this.getPersonHtmlEl({ h: obj.highlighted,name: obj.spouse.name, nik: obj.spouse.nik, gender: obj.spouse.gender, x: J, y: I});
+        el += this.getPersonHtmlEl({ h: obj.highlighted,name: obj.name, nik: obj.nik, gender: obj.gender, x: J + X, y: I});
       }
 
 
       el += this.getMaritalLine({x: J + mX, y: I + mY });
-      el += this.getKidsVLine({x: J + vX, y: I + vY});
+      if(obj.children && obj.children.length) el += this.getKidsVLine({x: J + vX, y: I + vY});
       const kidsVLineXAx = J + vX;
 
       let tracker = 0;
@@ -353,113 +354,115 @@ $(document).ready(function(){
       let firstKidsXpos = 0;
       let lastKidsXpos = 0;
 
-      for(let i = 0 ; i < obj.children.length ; i++){
-        if(obj.children[i].spouse !== undefined){
-          /*
-           * the order would always put man on the left, as women always right,
-           */
-          if(obj.children[i].gender === 'man'){
-            el += this.getPersonHtmlEl({
-              name: obj.children[i].name,
-              gender: obj.children[i].gender,
-              nik: obj.children[i].nik,
-              x: J + (tracker * X),
-              y: I + Y,
-            });
-            el += this.getHeadLine({x: J + (tracker * X) + hX, y: I + Y + hY});
-            el += this.getPersonHtmlEl({
-              name: obj.children[i].spouse.name,
-              gender: obj.children[i].spouse.gender,
-              nik: obj.children[i].spouse.nik,
-              x: J + ((tracker + 1) * X),
-              y: I + Y,
-            });
-            if( i === 0 ) firstKidsXpos = J + (tracker * X) + hX;
-            if( i === obj.children.length - 1 ) lastKidsXpos = J + (tracker * X) + hX;
-          } else {
-            el += this.getPersonHtmlEl({
-              name: obj.children[i].spouse.name,
-              gender: obj.children[i].spouse.gender,
-              nik: obj.children[i].spouse.nik,
-              x: J + (tracker * X),
-              y: I + Y,
-            });
-            el += this.getPersonHtmlEl({
-              name: obj.children[i].name,
-              gender: obj.children[i].gender,
-              nik: obj.children[i].nik,
-              x: J + ((tracker + 1) * X),
-              y: I + Y,
-            });
-            el += this.getHeadLine({x: J + ((tracker + 1) * X) + hX, y: I + Y + hY});
-            if( i === 0 ) firstKidsXpos = J + ((tracker + 1) * X) + hX;
-            if( i === obj.children.length - 1 ) lastKidsXpos = J + ((tracker + 1) * X) + hX;
-          }
-
-          // now see if the couple has any kids
-          if(obj.children[i].children && obj.children[i].children.length){
-            let fX = 0;
-            let lX = 0;
-            for(let j = 0; j < obj.children[i].children.length ; j++){
-              el += this.getPersonHtmlEl({
-                name: obj.children[i].children[j].name,
-                gender: obj.children[i].children[j].gender,
-                nik: obj.children[i].children[j].nik,
-                x: J + (bottomLevelIdx * X),
-                y: I + (Y * 2)
+      if(obj.children && obj.children.length) {
+        for(let i = 0 ; i < obj.children.length ; i++){
+          if(obj.children[i].spouse !== undefined){
+            /*
+             * the order would always put man on the left, as women always right,
+             */
+            if(obj.children[i].gender === 'man'){
+              el += this.getPersonHtmlEl({ h: obj.highlighted,
+                name: obj.children[i].name,
+                gender: obj.children[i].gender,
+                nik: obj.children[i].nik,
+                x: J + (tracker * X),
+                y: I + Y,
               });
-
-              el += this.getHeadLine({x: J + (bottomLevelIdx * X) + hX, y: I + (Y * 2) + hY });
-              if(j === 0) fX = J + (bottomLevelIdx * X) + hX;
-              if(j === obj.children[i].children.length - 1) lX = J + (bottomLevelIdx * X) + hX;
-              bottomLevelIdx ++;
+              el += this.getHeadLine({x: J + (tracker * X) + hX, y: I + Y + hY});
+              el += this.getPersonHtmlEl({ h: obj.highlighted,
+                name: obj.children[i].spouse.name,
+                gender: obj.children[i].spouse.gender,
+                nik: obj.children[i].spouse.nik,
+                x: J + ((tracker + 1) * X),
+                y: I + Y,
+              });
+              if( i === 0 ) firstKidsXpos = J + (tracker * X) + hX;
+              if( i === obj.children.length - 1 ) lastKidsXpos = J + (tracker * X) + hX;
+            } else {
+              el += this.getPersonHtmlEl({ h: obj.highlighted,
+                name: obj.children[i].spouse.name,
+                gender: obj.children[i].spouse.gender,
+                nik: obj.children[i].spouse.nik,
+                x: J + (tracker * X),
+                y: I + Y,
+              });
+              el += this.getPersonHtmlEl({ h: obj.highlighted,
+                name: obj.children[i].name,
+                gender: obj.children[i].gender,
+                nik: obj.children[i].nik,
+                x: J + ((tracker + 1) * X),
+                y: I + Y,
+              });
+              el += this.getHeadLine({x: J + ((tracker + 1) * X) + hX, y: I + Y + hY});
+              if( i === 0 ) firstKidsXpos = J + ((tracker + 1) * X) + hX;
+              if( i === obj.children.length - 1 ) lastKidsXpos = J + ((tracker + 1) * X) + hX;
             }
 
-            el += this.getKidsVLine({x: J + (X * tracker) + vX, y: Y + I + vY});
+            // now see if the couple has any kids
+            if(obj.children[i].children && obj.children[i].children.length){
+              let fX = 0;
+              let lX = 0;
+              for(let j = 0; j < obj.children[i].children.length ; j++){
+                el += this.getPersonHtmlEl({ h: obj.highlighted,
+                  name: obj.children[i].children[j].name,
+                  gender: obj.children[i].children[j].gender,
+                  nik: obj.children[i].children[j].nik,
+                  x: J + (bottomLevelIdx * X),
+                  y: I + (Y * 2)
+                });
 
-            const vLX = J + (X * tracker) + vX;
-            const fI = fX < vLX ? fX : vLX;
-            const lI = lX > vLX ? lX : vLX;
+                el += this.getHeadLine({x: J + (bottomLevelIdx * X) + hX, y: I + (Y * 2) + hY });
+                if(j === 0) fX = J + (bottomLevelIdx * X) + hX;
+                if(j === obj.children[i].children.length - 1) lX = J + (bottomLevelIdx * X) + hX;
+                bottomLevelIdx ++;
+              }
 
-            el += this.getKidsHLine({
-              x: fI,
-              y: 31,
-              w: (lI - fI) + 0.9,
+              el += this.getKidsVLine({x: J + (X * tracker) + vX, y: Y + I + vY});
+
+              const vLX = J + (X * tracker) + vX;
+              const fI = fX < vLX ? fX : vLX;
+              const lI = lX > vLX ? lX : vLX;
+
+              el += this.getKidsHLine({
+                x: fI,
+                y: 31,
+                w: (lI - fI) + 0.9,
+              });
+
+            }
+
+            el += this.getMaritalLine({x: J + (X * tracker) + mX, y: Y + I + mY});
+            tracker += 2;
+
+          } else {
+            el += this.getPersonHtmlEl({ h: obj.highlighted,
+              name: obj.children[i].name,
+              gender: obj.children[i].gender,
+              nik: obj.children[i].nik,
+              x: J + (tracker * X),
+              y: I + Y,
             });
 
+            el += this.getHeadLine({
+              x: J + (tracker * X) + hX, y: I + Y + hY,
+            });
+
+            if( i === 0 ) firstKidsXpos = J + (tracker * X) + hX;
+            if( i === obj.children.length - 1 ) lastKidsXpos = J + (tracker * X) + hX;
+
+            tracker ++;
           }
-
-          el += this.getMaritalLine({x: J + (X * tracker) + mX, y: Y + I + mY});
-          tracker += 2;
-
-        } else {
-          el += this.getPersonHtmlEl({
-            name: obj.children[i].name,
-            gender: obj.children[i].gender,
-            nik: obj.children[i].nik,
-            x: J + (tracker * X),
-            y: I + Y,
-          });
-
-          el += this.getHeadLine({
-            x: J + (tracker * X) + hX, y: I + Y + hY,
-          });
-
-          if( i === 0 ) firstKidsXpos = J + (tracker * X) + hX;
-          if( i === obj.children.length - 1 ) lastKidsXpos = J + (tracker * X) + hX;
-
-          tracker ++;
         }
+
+        const hLineStart = firstKidsXpos < kidsVLineXAx ? firstKidsXpos : kidsVLineXAx;
+        const hLineEnd = lastKidsXpos > kidsVLineXAx ? lastKidsXpos : kidsVLineXAx;
+
+        el += this.getKidsHLine({
+          x: hLineStart,
+          y: 16,
+          w: (hLineEnd - hLineStart) + 0.9,
+        });
       }
-
-      const hLineStart = firstKidsXpos < kidsVLineXAx ? firstKidsXpos : kidsVLineXAx;
-      const hLineEnd = lastKidsXpos > kidsVLineXAx ? lastKidsXpos : kidsVLineXAx;
-
-      el += this.getKidsHLine({
-        x: hLineStart,
-        y: 16,
-        w: (hLineEnd - hLineStart) + 0.9,
-      });
 
       return el;
     }
@@ -476,6 +479,7 @@ $(document).ready(function(){
       const detail = this.getDetailedInfo(person);
       const list = this.getFamilyList(person);
       const familyTree = {
+        highlighted: str,
         name: null,
         nik: null,
         gender: "man",
@@ -560,16 +564,22 @@ $(document).ready(function(){
             familyTree.children.push(obj);
           }
         }
-      } else {
-        familyTree.name = self.name;
+      } else if(!parents.length && kids.length) {
         familyTree.name = self.name;
         familyTree.nik = self.nik;
         familyTree.gender = self.gender;
         familyTree.spouse = self.spouse;
         familyTree.children = self.children;
+      } else if(!parents.length && !kids.length){
+        familyTree.name = self.name;
+        familyTree.nik = self.nik;
+        familyTree.gender = self.gender;
+        familyTree.spouse = self.spouse;
       }
 
       const htmlEl = this.generateFamilyTreeHtml(familyTree);
+      console.log(familyTree);
+
       $('#personInfo').removeClass('isHidden');
       $('#stats').addClass('isHidden');
       $('#familyTree').html(htmlEl);
@@ -583,6 +593,20 @@ $(document).ready(function(){
       const month = d.slice(3,5);
       const year = d.slice(6,11);
       return (`${date}-${months[month-1]}-${year}`);
+    }
+    groupKK(){
+      const {data} = State;
+      const kk = [];
+      for(let i = 0; i < State.data.length; i ++){
+        kk.push(data[i].nikk);
+      }
+
+      const filteredKK = [... new Set(kk)];
+      // console.log(kk);
+      // console.log([... new Set(kk)]);
+      for(let x = 0; x < filteredKK.length; x ++){
+        console.log()
+      }
     }
   }
   const family = new Family();
@@ -1062,9 +1086,10 @@ $(document).ready(function(){
       render: (data, meta, row) => `${family.parseNames(data)}`
     }, {
       data: "id",
-      render: (data, meta, row) => `<a href="javascript:void(0);" class="edit-citizen" data-id="${data}"><i class="fas fa-pencil-alt"></i></a><a href="javascript:void(0);" class="delete-citizen" data-id="${data}"><i class="fas fa-trash"></i></a>`
+      render: (data, meta, row) => `<a href="javascript:void(0);" class="edit-citizen" data-id="${data}"><i class="fas fa-pencil-alt"></i></a> <a href="javascript:void(0);" class="delete-citizen" data-id="${data}"><i class="fas fa-trash"></i></a>`
     }]
   });
+  family.groupKK();
 
   // Add citizen
   $('#newCitizenForm').on('submit', function(e){
@@ -1102,10 +1127,7 @@ $(document).ready(function(){
     citizen.delete();
   });
   $('#citizenList').on('click', '.person-item', function(e){
-    // console.log(e);
     const nik = $(this).data('nik');
-    // console.log(id);
-    // console.log(person);
     family.constructFamilyTree(nik);
   });
 

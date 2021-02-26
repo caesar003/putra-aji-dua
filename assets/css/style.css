@@ -107,43 +107,6 @@ button.btn-close.float-end {
   background-color: pink;
 }
 
-/* family tree */
-/* .linage {
-    fill: none;
-    stroke: #000;
-}
-.marriage {
-    fill: none;
-    stroke: black;
-}
-.marriageNode {
-    background-color: black;
-    border-radius: 50%;
-}
-.man {
-    background-color: lightblue;
-    border-style: solid;
-    border-width: 1px;
-    box-sizing: border-box;
-}
-.woman {
-    background-color: pink;
-    border-style: solid;
-    border-width: 1px;
-    box-sizing: border-box;
-}
-.emphasis{
-    font-style: italic;
-}
-p {
-  padding:0;
-  margin:0;
-}
-svg {
-  border-style: solid;
-  border-width: 1px;
-} */
-/* family tree */
 
 .pie-chart {
   display: block;
@@ -152,22 +115,17 @@ svg {
   width: 100px;
   height: 100px;
   border-radius: 50%;
-  /* background-image: conic-gradient(pink 70deg, lightblue 0 235deg, orange 0); */
-  /* background-image: conic-gradient(pink 70deg, lightblue 0 235deg, orange 0); */
-  /* background-image: conic-gradient(aliceblue 360deg); */
-  /* background-image: conic-gradient(from 45deg, blue, red); */
-  /* background-image: conic-gradient(
-      hsl(360, 100%, 50%),
-      hsl(315, 100%, 50%),
-      hsl(270, 100%, 50%),
-      hsl(225, 100%, 50%),
-      hsl(180, 100%, 50%),
-      hsl(135, 100%, 50%),
-      hsl(90, 100%, 50%),
-      hsl(45, 100%, 50%),
-      hsl(0, 100%, 50%)
-  ); */
-  /* background-image: conic-gradient(red 0deg, orange 90deg, yellow 180deg, green 270deg, blue 360deg); */
-  /* background-image: conic-gradient(red 50deg, blue 0 200deg, green 0); */
   background-image: conic-gradient(var(--g));
+}
+
+.edit-citizen {
+  color: #00aced;
+}
+.delete-citizen {
+  color: red;
+}
+
+.person-icon.highlighted {
+    opacity: 0.7;
+    box-shadow: 3px 3px 12px grey;
 }
