@@ -2,6 +2,7 @@
 
 class Home_model extends CI_Model{
   function get(){
+    
     $query = $this->db->get('citizen');
     return $query->result();
   }
