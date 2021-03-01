@@ -88,9 +88,9 @@ $(document).ready(function(){
     }
     getObj(str){
       const obj = [];
-      for( let i = 0 ; i < str.length; i+= 16){
-        const nik = Number( str.slice ( i, i + 15));
-        const rId = Number( str.slice( i + 15, i+16));
+      for( let i = 0 ; i < str.length; i+= 17){
+        const nik = Number( str.slice ( i, i + 16));
+        const rId = Number( str.slice( i + 16, i+17));
         const person = State.data.find(item => Number(item.nik) === nik);
         const rel = this.relations[rId-1];
         obj.push({person, rel});
@@ -193,9 +193,9 @@ $(document).ready(function(){
     }
     getInversed(str){
       const obj = [];
-      for(let i = 0; i<str.length; i += 16){
-        const nik = Number ( str.slice ( i, i + 15));
-        const rId = Number( str.slice( i + 15, i + 16));
+      for(let i = 0; i<str.length; i += 17){
+        const nik = Number ( str.slice ( i, i + 16));
+        const rId = Number( str.slice( i + 16, i + 17));
         const person = State.data.find(item => Number(item.nik) === nik);
         let rel = null;
         switch (rId) {
@@ -578,7 +578,6 @@ $(document).ready(function(){
       }
 
       const htmlEl = this.generateFamilyTreeHtml(familyTree);
-      console.log(familyTree);
 
       $('#personInfo').removeClass('isHidden');
       $('#stats').addClass('isHidden');
@@ -602,8 +601,6 @@ $(document).ready(function(){
       }
 
       const filteredKK = [... new Set(kk)];
-      // console.log(kk);
-      // console.log([... new Set(kk)]);
       for(let x = 0; x < filteredKK.length; x ++){
         console.log()
       }
@@ -744,8 +741,8 @@ $(document).ready(function(){
       const len = eIdx.length;
       if(!len){
         const nik = String(vals[0]);
-        if(nik.length !== 15){
-          showError(fEl, 'NIK harus berjumlah 15 angka!');
+        if(nik.length !== 16){
+          showError(fEl, 'NIK harus berjumlah 16 angka!');
           highlightField(fields[0]);
         } else {
           if(this.isNikAvailable(nik)){
@@ -771,8 +768,8 @@ $(document).ready(function(){
       const len = eIdx.length;
       if(!len){
         const nik = String(vals[0]);
-        if(nik.length !== 15){
-          showError(fEl, "NIK harus berjumlah 15 angka!");
+        if(nik.length !== 16){
+          showError(fEl, "NIK harus berjumlah 16 angka!");
           highlightField(fields[0]);
         } else {
           if(this.nikOnAnotherUser(id, nik)){

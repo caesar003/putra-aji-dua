@@ -45,80 +45,105 @@
       </div>
     </nav>
 
-    <div class="container-fluid p-2">
-      <div class="row">
-        <div class="col-md-4" id="side">
-          <div id="stats">
-            <div class="container">
-              <div class="row">
-                <div class="col-6">
-                  <ul class="list-unstyled" id="genderList">
-                  </ul>
-                </div>
-                <div class="col-6" id="genderChart">
-                </div>
-              </div>
-
-              <h4>Kelompok usia</h4>
-              <div class="row">
-                <div class="col-6">
-                  <ul class="list-unstyled" id="ageGroup">
-                  </ul>
-                </div>
-                <div class="col-6" id="ageChart">
-
-                </div>
-              </div>
-            </div>
-          </div>
-          <div id="personInfo" class="isHidden">
-            <h2 class="">
-              <span id="personName"></span>
-              <small>
-              <button type="button" class="btn-close float-end" aria-label="Close"></button></small>
-            </h2>
-            <div class="row">
-              <div class="col-6">
-                <h5>Informasi detil</h5>
-                <ul class="list-unstyled" id="personalInfo">
-
-                </ul>
-              </div>
-              <div class="col-6">
-                <h5>Keluarga</h5>
-                <ul class="list-unstyled" id="familyList">
-                </ul>
-              </div>
-            </div>
-            <div class="container-fluid">
-              <figure id="familyTree"></figure>
-            </div>
-          </div>
+    <div class="bd-example">
+      <nav>
+        <div class="nav nav-tabs mb-3" id="nav-tab" role="tablist">
+          <a class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Beranda</a>
+          <a class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Profil</a>
+          <a class="nav-link" id="nav-staff-tab" data-bs-toggle="tab" href="#nav-staff" role="tab" aria-controls="nav-staff" aria-selected="false">Perangkat Desa</a>
+          <a class="nav-link" id="nav-citizen-tab" data-bs-toggle="tab" href="#nav-citizen" role="tab" aria-controls="nav-citizen" aria-selected="false">Penduduk</a>
         </div>
-        <div class="col-md-8" id="main">
-          <div class="container">
-            <table id="citizenList" class="table table-striped table-bordered">
-              <thead>
-                <!-- <th>#</th> -->
-                <th>NIK</th>
-                <th>No KK</th>
-                <th>Nama</th>
-                <th>KK</th>
-                <th>RW</th>
-                <th>RT</th>
-                <th>Lahir</th>
-                <th>Usia</th>
-                <th>P/L </th>
-                <th>Status</th>
-                <th>Keluarga</th>
-                <th>Pilihan</th>
-              </thead>
-              <tbody></tbody>
-            </table>
+      </nav>
+      <div class="tab-content" id="nav-tabContent">
+        <div class="tab-pane fade active show" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+          <p class="px-3">Beranda.</p>
+        </div>
+        <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+          <p class="px-3">profil</p>
+        </div>
+        <div class="tab-pane fade" id="nav-staff" role="tabpanel" aria-labelledby="nav-staff-tab">
+          <p class="px-3">perangkat desa.</p>
+        </div>
+        <div class="tab-pane fade" id="nav-citizen" role="tabpanel" aria-labelledby="nav-citizen-tab">
+          <div class="container-fluid p-2">
+            <div class="row">
+              <div class="col-md-4" id="side">
+                <div id="stats">
+                  <div class="container">
+                    <div class="row">
+                      <div class="col-6">
+                        <ul class="list-unstyled" id="genderList">
+                        </ul>
+                      </div>
+                      <div class="col-6" id="genderChart">
+                      </div>
+                    </div>
+
+                    <h4>Kelompok usia</h4>
+                    <div class="row">
+                      <div class="col-6">
+                        <ul class="list-unstyled" id="ageGroup">
+                        </ul>
+                      </div>
+                      <div class="col-6" id="ageChart">
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div id="personInfo" class="isHidden">
+                  <h2 class="">
+                    <span id="personName"></span>
+                    <small>
+                    <button type="button" class="btn-close float-end" aria-label="Close"></button></small>
+                  </h2>
+                  <div class="row">
+                    <div class="col-6">
+                      <h5>Informasi detil</h5>
+                      <ul class="list-unstyled" id="personalInfo">
+
+                      </ul>
+                    </div>
+                    <div class="col-6">
+                      <h5>Keluarga</h5>
+                      <ul class="list-unstyled" id="familyList">
+                      </ul>
+                    </div>
+                  </div>
+                  <div class="container-fluid">
+                    <figure id="familyTree"></figure>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-8" id="main">
+                <div class="container">
+                  <table id="citizenList" class="table table-striped table-bordered">
+                    <thead>
+                      <!-- <th>#</th> -->
+                      <th>NIK</th>
+                      <th>No KK</th>
+                      <th>Nama</th>
+                      <th>KK</th>
+                      <th>RW</th>
+                      <th>RT</th>
+                      <th>Lahir</th>
+                      <th>Usia</th>
+                      <th>P/L </th>
+                      <th>Status</th>
+                      <th>Keluarga</th>
+                      <th>Pilihan</th>
+                    </thead>
+                    <tbody></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
           </div>
+
         </div>
       </div>
     </div>
+
 
     <!-- New Citizen Form -->
     <form id="newCitizenForm">
